@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <Configurations>Release;Debug</Configurations>
+        <Platforms>x64</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+      <OutputPath>bin\Release\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+      <OutputPath>bin\Debug\</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Jirnal.Core\Jirnal.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="3.0.0" />
+      <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
+      <PackageReference Include="RestSharp" Version="106.6.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="JiraOAuth.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\JiraOAuthClient\JiraOAuth.Client\bin\x64\Release\netcoreapp3.0\JiraOAuth.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\Tools\Tools\bin\Release\netcoreapp3.0\Tools.dll</HintPath>
+      </Reference>
+      <Reference Include="Tools.UI.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\Tools\Tools.UI.WPF\bin\Release\netcoreapp3.0\Tools.UI.WPF.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

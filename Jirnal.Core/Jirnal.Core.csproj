@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>x64</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+      <OutputPath>bin\Debug\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+      <OutputPath>bin\Release\</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="3.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+      <PackageReference Include="NLog" Version="4.6.7" />
+      <PackageReference Include="RestSharp" Version="106.6.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Jirnal.Tools\Jirnal.Tools.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="JiraOAuth.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\JiraOAuthClient\JiraOAuth.Client\bin\x64\Release\netcoreapp3.0\JiraOAuth.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\Tools\Tools\bin\Release\netcoreapp3.0\Tools.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
