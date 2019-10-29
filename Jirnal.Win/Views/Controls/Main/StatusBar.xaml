@@ -11,8 +11,41 @@
         <StatusBarItem>
             <TextBlock Text="{Binding Status}"/>
         </StatusBarItem>
+        
         <StatusBarItem>
             <ProgressBar IsIndeterminate="{Binding IsRunning}"/>
+        </StatusBarItem>
+    
+        <StatusBarItem HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ToggleButton Height="22" Width="22" Margin="3,0" ToolTip="Vertical Layout" 
+                              IsChecked="{Binding IsVerticalChecked}">
+                    <Image Source="../../../Resources/VerticalLayout_16x16.png"  Height="16" Width="16"/>
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Border.BorderThickness" Value="2"/>
+                                </Trigger>    
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+                
+                <ToggleButton Height="22" Width="22" Margin="3,0" ToolTip="Horizontal Layout" 
+                              IsChecked="{Binding IsHorizontalChecked}">
+                    <Image Source="../../../Resources/HorizontalLayout_16x16.png" Height="16" Width="16" />
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Border.BorderThickness" Value="2"/>
+                                </Trigger>    
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </StackPanel>
         </StatusBarItem>
     </StatusBar>
 </UserControl>

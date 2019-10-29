@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using JiraOAuth.Client;
 using Jirnal.Core.JiraTypes;
-using Jirnal.Core.Settings;
 using Newtonsoft.Json;
 using NLog;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Authenticators.OAuth;
+using Tools.ExtensionMethods;
 using Tools.Settings;
 
 
@@ -23,6 +24,7 @@ namespace Jirnal.Core
 
         private const string ProjectUrl = "project";
         private const string SearchUrl = "search";
+        private const string CommentsUrl = "comments";
 
 
         public JiraProxy(string baseUrl)
@@ -31,7 +33,8 @@ namespace Jirnal.Core
             requestUrls_ = new Dictionary<string, string>
             {
                 {SearchUrl, $"{baseUrl}/rest/api/2/search"},
-                {ProjectUrl, $"{baseUrl}/rest/api/2/project"}
+                {ProjectUrl, $"{baseUrl}/rest/api/2/project"},
+                {CommentsUrl, $"{baseUrl}/rest/api/2/issue/{{0}}/comment"}
             };
         }
 
@@ -56,13 +59,13 @@ namespace Jirnal.Core
             try {
                 var request = new RestRequest(requestUrls_[ProjectUrl]);
                 var response = await client_.ExecuteTaskAsync(request);
+                if(response.Content.IsNullOrWhitespace())
+                    return new Collection<JiraProject>();
                 var projects = JsonConvert.DeserializeObject<JiraProject[]>(response.Content, Converter.Settings);
                 return projects;
-            } catch (Exception err) {
-                logger_.Error(err);
-            }
+            } catch (Exception err) { logger_.Error(err); }
 
-            return null;
+            return new Collection<JiraProject>();
         }
 
 
@@ -73,13 +76,31 @@ namespace Jirnal.Core
                 var request = new RestRequest(requestUrls_[SearchUrl], Method.POST);
                 request.AddJsonBody(jsonSearch);
                 var response = await client_.ExecuteTaskAsync(request);
+                if (response.Content.IsNullOrWhitespace())
+                    return null;
+                
                 var issues = JsonConvert.DeserializeObject<SearchResult>(response.Content, Converter.Settings);
                 return issues;
-            } catch (Exception err) {
-                logger_.Error(err);
-            }
+            } catch (Exception err) { logger_.Error(err); }
 
             return null;
+        }
+
+        
+        public async Task<Comments> GetComments(string key)
+        {
+            try {
+                var url = string.Format(requestUrls_[CommentsUrl], key);
+                var request = new RestRequest(url, Method.GET);
+                var response = await client_.ExecuteTaskAsync(request);
+                if (response.Content.IsNullOrWhitespace())
+                    return null;
+                
+                var issues = JsonConvert.DeserializeObject<Comments>(response.Content, Converter.Settings);
+                return issues;
+            } catch (Exception err) { logger_.Error(err); }
+
+            return null; 
         }
     }
 }

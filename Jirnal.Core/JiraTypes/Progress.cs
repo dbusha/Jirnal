@@ -2,10 +2,10 @@ using Newtonsoft.Json;
 
 namespace Jirnal.Core.JiraTypes
 {
-    public class Progress
+    public class JiraProgress
     {
         [JsonProperty("progress")]
-        public long ProgressProgress { get; set; }
+        public long Progress { get; set; }
 
         [JsonProperty("total")]
         public long Total { get; set; }

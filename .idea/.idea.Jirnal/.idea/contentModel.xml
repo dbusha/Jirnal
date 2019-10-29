@@ -4,12 +4,21 @@
     <e p="C:\source\Jirnal" t="IncludeFlat">
       <e p="Jirnal.Core" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="ConstStrings.cs" t="Include" />
+        <e p="Enumerations.cs" t="Include" />
+        <e p="Events" t="Include">
+          <e p="LayoutChangedEventArgs.cs" t="Include" />
+          <e p="MessageBus.cs" t="Include" />
+          <e p="ProjectChangedEventArgs.cs" t="Include" />
+        </e>
         <e p="JiraProxy.cs" t="Include" />
         <e p="JiraTypes" t="Include">
+          <e p="ApplicationRoles.cs" t="Include" />
           <e p="Attachment.cs" t="Include" />
           <e p="Author.cs" t="Include" />
           <e p="AvatarUrls.cs" t="Include" />
           <e p="Comment.cs" t="Include" />
+          <e p="Comments.cs" t="Include" />
           <e p="Component.cs" t="Include" />
           <e p="Converter.cs" t="Include" />
           <e p="Creator.cs" t="Include" />
@@ -20,20 +29,26 @@
           <e p="IssueLinkType.cs" t="Include" />
           <e p="IssueSearch.cs" t="Include" />
           <e p="IssueType.cs" t="Include" />
+          <e p="Item.cs" t="Include" />
           <e p="JiraProject.cs" t="Include" />
+          <e p="JiraType.cs" t="Include" />
+          <e p="JiraUser.cs" t="Include" />
           <e p="Lead.cs" t="Include" />
           <e p="Names.cs" t="Include" />
           <e p="OutwardIssue.cs" t="Include" />
           <e p="Priority.cs" t="Include" />
           <e p="Progress.cs" t="Include" />
           <e p="ProjectCategory.cs" t="Include" />
+          <e p="Resolution.cs" t="Include" />
           <e p="Roles.cs" t="Include" />
           <e p="Schema.cs" t="Include" />
           <e p="SearchRequest.cs" t="Include" />
           <e p="SearchResult.cs" t="Include" />
           <e p="Status.cs" t="Include" />
           <e p="StringToLongConverter.cs" t="Include" />
+          <e p="SubTask.cs" t="Include" />
           <e p="TimeTracking.cs" t="Include" />
+          <e p="Version.cs" t="Include" />
           <e p="Visibility.cs" t="Include" />
           <e p="Votes.cs" t="Include" />
           <e p="Watcher.cs" t="Include" />
@@ -53,6 +68,8 @@
         </e>
         <e p="Settings" t="Include">
           <e p="ProjectSettings.cs" t="Include" />
+          <e p="StatusBarSettings.cs" t="Include" />
+          <e p="WindowSettings.cs" t="Include" />
         </e>
       </e>
       <e p="Jirnal.sln" t="IncludeFlat" />
@@ -84,56 +101,79 @@
             </e>
           </e>
         </e>
-        <e p="ProjectsVm.cs" t="Include" />
-        <e p="Tasks.txt" t="Include" />
-        <e p="UserControlTemplate.xaml" t="Include" />
-        <e p="UserControlTemplate.xaml.cs" t="Include" />
+        <e p="Resources" t="Include">
+          <e p="HorizontalLayout_16x16.png" t="Include" />
+          <e p="VerticalLayout_16x16.png" t="Include" />
+        </e>
+        <e p="ToDoList.txt" t="Include" />
         <e p="ViewModels" t="Include">
           <e p="AuthenticationVm.cs" t="Include" />
-          <e p="IssuesVm.cs" t="Include" />
+          <e p="CommentVm.cs" t="Include" />
+          <e p="IssuePanes" t="Include">
+            <e p="IssuesPaneBaseVm.cs" t="Include" />
+            <e p="PinnedIssuesPaneVm.cs" t="Include" />
+            <e p="RecentIssuesPaneVm.cs" t="Include" />
+            <e p="SearchIssuesPaneVm.cs" t="Include" />
+          </e>
           <e p="IssueVm.cs" t="Include" />
           <e p="LayoutPaneVm.cs" t="Include" />
           <e p="MainMenuBarVm.cs" t="Include" />
           <e p="MainStatusBarVm.cs" t="Include" />
           <e p="MainVm.cs" t="Include" />
+          <e p="ProjectsVm.cs" t="Include" />
           <e p="ProjectVm.cs" t="Include" />
           <e p="SettingsVm.cs" t="Include" />
           <e p="WindowManager.cs" t="Include" />
         </e>
         <e p="Views" t="Include">
           <e p="Controls" t="Include">
+            <e p="CommentList.xaml" t="Include" />
+            <e p="CommentList.xaml.cs" t="Include" />
+            <e p="LabelAndValueField.xaml" t="Include" />
+            <e p="LabelAndValueField.xaml.cs" t="Include" />
             <e p="Main" t="Include">
               <e p="MenuBar.xaml" t="Include" />
               <e p="MenuBar.xaml.cs" t="Include" />
               <e p="StatusBar.xaml" t="Include" />
               <e p="StatusBar.xaml.cs" t="Include" />
             </e>
+            <e p="ProjectDetails.xaml" t="Include" />
+            <e p="ProjectDetails.xaml.cs" t="Include" />
+          </e>
+          <e p="Converters" t="Include">
+            <e p="SizeReductionConverter.cs" t="Include" />
           </e>
           <e p="Panes" t="Include">
+            <e p="AddCommentPane.xaml" t="Include" />
+            <e p="AddCommentPane.xaml.cs" t="Include" />
             <e p="EditorPane.xaml" t="Include" />
             <e p="EditorPane.xaml.cs" t="Include" />
+            <e p="HorizontalLayoutPane.xaml" t="Include" />
+            <e p="HorizontalLayoutPane.xaml.cs" t="Include" />
             <e p="IssueDetailPane.xaml" t="Include" />
             <e p="IssueDetailPane.xaml.cs" t="Include" />
             <e p="IssuesPane.xaml" t="Include" />
             <e p="IssuesPane.xaml.cs" t="Include" />
-            <e p="LayoutPane.xaml" t="Include" />
-            <e p="LayoutPane.xaml.cs" t="Include" />
             <e p="ProjectsPane.xaml" t="Include" />
             <e p="ProjectsPane.xaml.cs" t="Include" />
             <e p="SearchPane.xaml" t="Include" />
             <e p="SearchPane.xaml.cs" t="Include" />
+            <e p="VerticalLayoutPane.xaml" t="Include" />
+            <e p="VerticalLayoutPane.xaml.cs" t="Include" />
           </e>
           <e p="Windows" t="Include">
             <e p="AuthenticationWindow.xaml" t="Include" />
             <e p="AuthenticationWindow.xaml.cs" t="Include" />
+            <e p="IssueCommentWindow.xaml" t="Include" />
+            <e p="IssueCommentWindow.xaml.cs" t="Include" />
+            <e p="IssueDetailWindow.xaml" t="Include" />
+            <e p="IssueDetailWindow.xaml.cs" t="Include" />
             <e p="MainWindow.xaml" t="Include" />
             <e p="MainWindow.xaml.cs" t="Include" />
             <e p="SettingsWindow.xaml" t="Include" />
             <e p="SettingsWindow.xaml.cs" t="Include" />
           </e>
         </e>
-        <e p="WindowTemplate.xaml" t="Include" />
-        <e p="WindowTemplate.xaml.cs" t="Include" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
     </e>

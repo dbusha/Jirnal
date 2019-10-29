@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Jirnal.Core.JiraTypes
 {
-    public partial class IssueFields
+    public class IssueFields
     {
         [JsonProperty("issuetype")]
         public IssueType IssueType { get; set; }
@@ -21,7 +23,7 @@ namespace Jirnal.Core.JiraTypes
         public object AggregateTimeSpent { get; set; }
 
         [JsonProperty("resolution")]
-        public Priority Resolution { get; set; }
+        public Resolution Resolution { get; set; }
 
         [JsonProperty("resolutiondate")]
         public DateTime? ResolutionDate { get; set; }
@@ -30,20 +32,19 @@ namespace Jirnal.Core.JiraTypes
         public long WorkRatio { get; set; }
 
         [JsonProperty("lastViewed")]
-        public object LastViewed { get; set; }
+        public DateTime LastViewed { get; set; }
 
         [JsonProperty("watches")]
         public Watches Watches { get; set; }
 
         [JsonProperty("created")]
-        public string Created { get; set; }
+        public DateTime Created { get; set; }
 
         [JsonProperty("priority")]
         public Priority Priority { get; set; }
 
         [JsonProperty("labels")]
         public object[] Labels { get; set; }
-
 
         [JsonProperty("timeestimate")]
         public object TimeEstimate { get; set; }
@@ -52,13 +53,13 @@ namespace Jirnal.Core.JiraTypes
         public object AggregateTimeOriginalEstimate { get; set; }
 
         [JsonProperty("versions")]
-        public object[] Versions { get; set; }
+        public Version[] Versions { get; set; }
 
         [JsonProperty("issuelinks")]
         public IssueLink[] IssueLinks { get; set; }
 
         [JsonProperty("assignee")]
-        public object Assignee { get; set; }
+        public JiraUser Assignee { get; set; }
 
         [JsonProperty("updated")]
         public DateTime Updated { get; set; }
@@ -67,7 +68,7 @@ namespace Jirnal.Core.JiraTypes
         public Status Status { get; set; }
 
         [JsonProperty("components")]
-        public Priority[] Components { get; set; }
+        public Component[] Components { get; set; }
 
         [JsonProperty("timeoriginalestimate")]
         public object TimeOriginalEstimate { get; set; }
@@ -77,9 +78,6 @@ namespace Jirnal.Core.JiraTypes
 
         [JsonProperty("timetracking")]
         public TimeTracking TimeTracking { get; set; }
-
-        [JsonProperty("customfield_10204")]
-        public object Customfield10204 { get; set; }
 
         [JsonProperty("attachment")]
         public object[] Attachment { get; set; }
@@ -94,30 +92,53 @@ namespace Jirnal.Core.JiraTypes
         public Creator Creator { get; set; }
 
         [JsonProperty("subtasks")]
-        public object[] SubTasks { get; set; }
+        public SubTask[] SubTasks { get; set; }
 
         [JsonProperty("reporter")]
         public Creator Reporter { get; set; }
 
         [JsonProperty("aggregateprogress")]
-        public Progress AggregateProgress { get; set; }
+        public JiraProgress AggregateProgress { get; set; }
 
         [JsonProperty("environment")]
         public object Environment { get; set; }
 
         [JsonProperty("duedate")]
-        public object DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [JsonProperty("progress")]
-        public Progress Progress { get; set; }
+        public JiraProgress Progress { get; set; }
 
         [JsonProperty("comment")]
-        public Comment Comment { get; set; }
+        public Comment[] Comments { get; set; }
 
         [JsonProperty("votes")]
         public Votes Votes { get; set; }
 
         [JsonProperty("worklog")]
-        public Comment WorKLog { get; set; }
+        public WorkLog WorkLog { get; set; }
+        
+        [JsonProperty("customfield_10501")]
+        public string[] RawSprintField { get; set; }
+        
+        public string[] Sprints {
+            get {
+                var sprints = new List<string>();
+                if (RawSprintField == null || !RawSprintField.Any())
+                    return sprints.ToArray();
+                
+                foreach (var sprint in RawSprintField) {
+                    var array = sprint.Split(new[] {'[', ']'}, StringSplitOptions.RemoveEmptyEntries);
+                    var keyValuePairs = array[1].Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var kv in keyValuePairs) {
+                        var pair = kv.Split('=', StringSplitOptions.RemoveEmptyEntries);
+                        if(pair.Length>1 && pair[0].Equals("name"))
+                            sprints.Add(pair[1]);
+                    }
+                }
+                return sprints.ToArray();
+            }
+            
+        }
     }
 }

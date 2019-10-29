@@ -5,7 +5,7 @@ namespace Jirnal.Win.ViewModels
 {
     public class MainVm
     {
-        private JirnalCore jirnalCore_;
+        private readonly JirnalCore jirnalCore_;
 
         public MainVm(JirnalCore core)
         {

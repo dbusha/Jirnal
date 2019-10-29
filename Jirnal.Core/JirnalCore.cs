@@ -1,4 +1,5 @@
 using JiraOAuth.Client;
+using Jirnal.Core.Events;
 using Jirnal.Core.Settings;
 using Tools.ExtensionMethods;
 using Tools.Settings;
@@ -15,7 +16,8 @@ namespace Jirnal.Core
             ProjectSettings = new ProjectSettings();
             JiraProxy = new JiraProxy(oauthSettings_.BaseUrl);
             JiraOAuthClient = new JiraOAuthClient(oauthSettings_.BaseUrl, oauthSettings_.ConsumerKey, oauthSettings_.ConsumerSecret);
-
+            MessageBus = new MessageBus();
+            
             if (!oauthSettings_.AccessToken.IsNullOrWhitespace()) {
                 JiraProxy.LoadAuthenticator(oauthSettings_);
             }
@@ -26,6 +28,7 @@ namespace Jirnal.Core
         public JiraOAuthClient JiraOAuthClient { get; }
         public ProjectSettings ProjectSettings { get; }
         public JiraProxy JiraProxy { get; }
+        public MessageBus MessageBus { get; }
 
         
         public void SaveOAuthSettings()

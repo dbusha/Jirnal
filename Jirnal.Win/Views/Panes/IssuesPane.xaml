@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
+             xmlns:issuePanes="clr-namespace:Jirnal.Win.ViewModels.IssuePanes"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance issuePanes:IssuesPaneBaseVm}"
+             >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -14,17 +17,26 @@
         
         
         <ListView Grid.Row="1" ItemsSource="{Binding Issues}" SelectedItem="{Binding SelectedIssue}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="BorderBrush" Value="DimGray"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,.5"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            
             <ListView.ItemTemplate>
                 <DataTemplate DataType="viewModels:IssueVm">
-                    <DockPanel LastChildFill="False">
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                            <TextBlock Text="{Binding Key}" Width="60"/>
-                            <TextBlock Text="{Binding Title}"/>
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Key}" Width="60" DockPanel.Dock="Left" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Title}" FontWeight="DemiBold" DockPanel.Dock="Left"/>
+                        </DockPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock Text="{Binding Components}" DockPanel.Dock="Left" Margin="60,0,0,0"/>
+                            <TextBlock Text="{Binding Version}" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
                         </StackPanel>
-                        <TextBlock Text="{Binding Updated, StringFormat={}Last updated: {0:yyyy-MM-dd}}" 
-                                   DockPanel.Dock="Top"
-                                   Margin="60,0,0,0"/>
-                    </DockPanel>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

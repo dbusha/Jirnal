@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
-        xmlns:tools="clr-namespace:Tools.UI.WPF;assembly=Tools.UI.WPF"
+        xmlns:tools="clr-namespace:Tools.UI.WPF.Converters;assembly=Tools.UI.WPF"
         mc:Ignorable="d"
         Title="Window" Height="700" Width="900"
         d:DataContext="{d:DesignInstance viewModels:AuthenticationVm}">
@@ -23,7 +23,7 @@
         
         
         <Border BorderBrush="{Binding HasError, Converter={StaticResource BoolToBrush}}" 
-                BorderThickness="1.25" Padding="50" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                BorderThickness="1.25" Padding="15" VerticalAlignment="Center" HorizontalAlignment="Center" 
                 Visibility="{Binding IsConfirmationVisible, Converter={StaticResource BoolToVisibility}}">
             
             <StackPanel>

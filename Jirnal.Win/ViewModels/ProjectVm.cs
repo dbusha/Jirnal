@@ -4,6 +4,13 @@ namespace Jirnal.Win.ViewModels
 {
     public class ProjectVm : ViewModelBase
     {
+        public ProjectVm(string projectName)
+        {
+            Name = projectName;
+        }
+        
+        
+        
         public ProjectVm(Core.JiraTypes.JiraProject project)
         {
             Name = project.Name;

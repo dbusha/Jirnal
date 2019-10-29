@@ -1,6 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Forms;
 using Jirnal.Core;
+using Jirnal.Core.Events;
 using Jirnal.Win.ViewModels;
+using Jirnal.Win.Views.Controls.Main;
+using Jirnal.Win.Views.Panes;
 
 namespace Jirnal.Win.Views.Windows
 {
@@ -20,9 +24,25 @@ namespace Jirnal.Win.Views.Windows
 
             MainMenuBar.Close += Close;
             WindowManager.Singleton.Initialize(core);
+            core.MessageBus.LayoutChangeRequest += OnLayoutChangeRequest_;
+            mainVm_.StatusBar.SetSelectedLayout();
+        }
+        
+
+        private void OnLayoutChangeRequest_(object sender, LayoutChangedEventArgs e)
+        {
+            if (!(sender is MainStatusBarVm))
+                return;
+            LayoutGrid.Children.Clear();
+            if (e.Direction == LayoutDirection.Vertical) {
+                LayoutGrid.Children.Add(new VerticalLayoutPane(mainVm_.Layout));
+            }
+            else {
+                LayoutGrid.Children.Add(new HorizontalLayoutPane(mainVm_.Layout));
+            }
         }
 
-        
+
         private async void OnLoaded_(object sender, RoutedEventArgs e)
         {
             await mainVm_.InitializeAsync();

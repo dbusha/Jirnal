@@ -18,7 +18,7 @@
         
         <mainView:MainMenuBar Grid.Row="0" x:Name="MainMenuBar" DataContext="{Binding MenuBar}"/>
         
-        <panes:LayoutPane Grid.Row="1" DataContext="{Binding Layout}"/>
+        <DockPanel Grid.Row="1" x:Name="LayoutGrid"/>
         
         <mainView:MainStatusBar Grid.Row="2" DataContext="{Binding StatusBar}"/>
         

@@ -22,10 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Jirnal.Tools\Jirnal.Tools.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="JiraOAuth.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\JiraOAuthClient\JiraOAuth.Client\bin\x64\Release\netcoreapp3.0\JiraOAuth.Client.dll</HintPath>
       </Reference>

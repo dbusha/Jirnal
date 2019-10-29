@@ -38,4 +38,13 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\Horizontal.png" />
+      <None Remove="Resources\Vertical.png" />
+      <None Remove="Resources\Horizontal_16x16.png" />
+      <Resource Include="Resources\HorizontalLayout_16x16.png" />
+      <None Remove="Resources\Vertical_16x16.png" />
+      <Resource Include="Resources\VerticalLayout_16x16.png" />
+    </ItemGroup>
+
 </Project>
