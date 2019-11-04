@@ -1,6 +1,5 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Jirnal.Win.ViewModels;
 using Jirnal.Win.Views.Windows;
 
@@ -13,7 +12,19 @@ namespace Jirnal.Win.Views.Panes
             this.DataContextChanged += OnDataContextChanged_;
             InitializeComponent();
         }
-
+        
+        
+        public static readonly DependencyProperty CanOpenWindowProperty = DependencyProperty.Register(
+            "CanOpenWindow", typeof(bool), typeof(IssueDetailPane), new PropertyMetadata(true));
+        
+        
+        public bool CanOpenWindow
+        {
+            get => (bool)GetValue(CanOpenWindowProperty);
+            set => SetValue(CanOpenWindowProperty, value);
+        }
+        
+        
         private async void OnDataContextChanged_(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null || !(e.NewValue is IssueVm issue))
@@ -22,8 +33,6 @@ namespace Jirnal.Win.Views.Panes
         }
 
        
-
-        
         private void OnNewWindowClick_(object sender, RoutedEventArgs e)
         {
             var window = new IssueDetailWindow();

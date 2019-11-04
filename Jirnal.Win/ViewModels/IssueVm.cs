@@ -7,6 +7,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Jirnal.Core;
 using Jirnal.Core.JiraTypes;
+using Microsoft.VisualBasic.CompilerServices;
+using Prism.Commands;
+using Tools.ExtensionMethods;
 using Tools.UI.WPF;
 
 namespace Jirnal.Win.ViewModels
@@ -14,8 +17,8 @@ namespace Jirnal.Win.ViewModels
     public class IssueVm : ViewModelBase
     {
         private readonly JirnalCore jirnalCore_;
-        private readonly ObservableCollection<Comment> comments_ = new ObservableCollection<Comment>();
-        private ICommand addCommentCmd_;
+        private readonly ObservableCollection<CommentVm> comments_ = new ObservableCollection<CommentVm>();
+        private DelegateCommand addCommentCmd_;
         private ICommand editProjectCmd_;
         private bool isAddCommentVisible_;
         private ICommand showAddCommentCmd_;
@@ -39,14 +42,13 @@ namespace Jirnal.Win.ViewModels
             Updated = issue.Fields.Updated;
             Title = issue.Fields.Summary;
             Assignee = issue.Fields.Assignee?.DisplayName;
-            Version = string.Join(',', issue.Fields.Versions.Select(v => v.Name));
+            Version = issue.Fields.Versions != null ? string.Join(',', issue.Fields.Versions.Select(v => v.Name)) : "";
             Components = string.Join(',', issue.Fields.Components.Select(c => c.Name));
             Reporter = issue.Fields.Reporter.DisplayName;
             Resolution = issue.Fields.Resolution?.Name;
             Priority = issue.Fields.Priority.Name;
             Status = issue.Fields.Status?.Name;
             Sprint = string.Join(",", issue.Fields.Sprints);
-            CanOpenNewWindow = true;
         }
 
         
@@ -65,9 +67,11 @@ namespace Jirnal.Win.ViewModels
             Priority = issue.Priority;
             Status = issue.Status;
             Sprint = issue.Sprint;
-            CanOpenNewWindow = false;
+            Epic = issue.Epic;
+            StoryPoints = issue.StoryPoints;
         }
-        
+
+        public event Action CancelComment;
 
         public string ProjectName { get; }
         public string Description { get; }
@@ -82,10 +86,12 @@ namespace Jirnal.Win.ViewModels
         public string Priority { get; }
         public string Status { get; }
         public string Sprint { get; }
+        public string Epic { get; }
+        public int? StoryPoints { get; }
+        public string Labels { get; }
         
         
         public ListCollectionView Comments { get; }
-        public bool CanOpenNewWindow { get; }
         public string CommentTitle => $"{Key}: {Title}";
         
         
@@ -99,29 +105,43 @@ namespace Jirnal.Win.ViewModels
         public string CommentText
         {
             get => commentText_;
-            set => SetValue(ref commentText_, value, nameof(CommentText));
+            set {
+                SetValue(ref commentText_, value, nameof(CommentText));
+                SubmitComment.RaiseCanExecuteChanged();
+            }
         }
+
+
+        public ICommand ShowAddCommentCmd => CommandHelper(ref showAddCommentCmd_, () => { IsAddCommentVisible = true; });
         
         
-        public ICommand ShowAddCommentCmd => CommandHelper(ref showAddCommentCmd_, () => IsAddCommentVisible = true);
         public ICommand EditProjectCmd => CommandHelper(ref editProjectCmd_, () => { });
-        public ICommand AddCommentCmd => CommandHelper(ref addCommentCmd_, () => { });
+        
+        
+        public DelegateCommand SubmitComment => CommandHelper(ref addCommentCmd_, 
+            () => jirnalCore_.JiraProxy.AddComment(CommentText, Key), 
+            () => !CommentText.IsNullOrWhitespace());
 
         
         public ICommand CancelCommentCmd => CommandHelper(ref cancelAddCommentCmd_, () => {
             IsAddCommentVisible = false;
             CommentText = null;
+            CancelComment?.Invoke();
         });
 
-        
 
-
-        public async Task GetComments()
+        internal async Task GetComments()
         {
+            comments_.Clear();
             var comments = await jirnalCore_.JiraProxy.GetComments(Key);
             foreach(var comment in comments.CommentList)
-                comments_.Add(comment);
+                comments_.Add(new CommentVm(comment));
         }
+
         
+        internal async Task<bool> DeleteComment(CommentVm comment)
+        {
+            return await jirnalCore_.JiraProxy.DeleteComment(Key, comment.Id);
+        }
     }
 }

@@ -45,6 +45,18 @@
       <Resource Include="Resources\HorizontalLayout_16x16.png" />
       <None Remove="Resources\Vertical_16x16.png" />
       <Resource Include="Resources\VerticalLayout_16x16.png" />
+      <None Remove="Resources\note_add.png" />
+      <Resource Include="Resources\note_add.png" />
+      <None Remove="Resources\note_delete.png" />
+      <Resource Include="Resources\note_delete.png" />
+      <None Remove="Resources\note_edit.png" />
+      <Resource Include="Resources\note_edit.png" />
+      <None Remove="Resources\slide_cut.png" />
+      <Resource Include="Resources\slide_cut.png" />
+      <None Remove="Resources\bullet_edit.png" />
+      <Resource Include="Resources\bullet_edit.png" />
+      <None Remove="Resources\bin_closed.png" />
+      <Resource Include="Resources\bin_closed.png" />
     </ItemGroup>
 
 </Project>

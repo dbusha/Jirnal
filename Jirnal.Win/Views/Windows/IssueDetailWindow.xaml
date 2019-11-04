@@ -9,6 +9,6 @@
         Title="{Binding Key}" Height="450" Width="800"
         d:DataContext="{d:DesignInstance Type=viewModels:IssueVm}">
         
-        <panes:IssueDetailPane/>
+        <panes:IssueDetailPane x:Name="DetailPane"/>
         
 </Window>

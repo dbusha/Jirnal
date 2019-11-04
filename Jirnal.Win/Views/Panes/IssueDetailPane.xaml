@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
-             xmlns:jiraTypes="clr-namespace:Jirnal.Core.JiraTypes;assembly=Jirnal.Core"
-             xmlns:converters="clr-namespace:Jirnal.Win.Views.Converters"
              xmlns:toolsConverters="clr-namespace:Tools.UI.WPF.Converters;assembly=Tools.UI.WPF"
              xmlns:controls="clr-namespace:Jirnal.Win.Views.Controls"
              xmlns:panes="clr-namespace:Jirnal.Win.Views.Panes"
@@ -24,6 +22,7 @@
         <toolsConverters:NullVisibilityConverter x:Key="NullToVis" NullValue="Hidden" NonNullValue="Visible"/>
     </UserControl.Resources>
     
+    
     <Grid Visibility="{Binding Converter={StaticResource NullToVis}}">
         
         <Grid.RowDefinitions>
@@ -40,13 +39,27 @@
                 <Style TargetType="Button">
                     <Setter Property="DockPanel.Dock" Value="Right"/>
                     <Setter Property="Margin" Value="10,0"/>
+                    <Setter Property="Height" Value="22"/>
+                    <Setter Property="Width" Value="22"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Style>
+                <Style TargetType="Image">
+                    <Setter Property="Height" Value="16"/>
+                    <Setter Property="Width" Value="16"/>
                 </Style>
             </DockPanel.Resources>
             
-            <Button Content="New" Margin="10,0" DockPanel.Dock="Right" Click="OnNewWindowClick_"
-                    Visibility="{Binding CanOpenNewWindow, Converter={StaticResource BoolToVis}}"/>
-            <Button Content="Add Comment" Command="{Binding AddCommentCmd}" />
-            <Button Content="Edit" Command="{Binding EditProjectCmd}"/>
+            <Button Margin="10,0" DockPanel.Dock="Right" Click="OnNewWindowClick_" ToolTip="Open in New Window"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                    Path=CanOpenWindow, Converter={StaticResource BoolToVis}}">
+                <Image Source="../../Resources/slide_cut.png" />
+            </Button>
+            <Button Command="{Binding ShowAddCommentCmd}" Click="OnAddCommentCmdClicked" ToolTip="Add Comment">
+                <Image Source="../../Resources/note_add.png" />
+            </Button>
+            <Button Command="{Binding EditProjectCmd}" ToolTip="Edit Project">
+                <Image Source="../../Resources/bullet_edit.png" />
+            </Button>
             
             <TextBlock Text="{Binding Key, StringFormat={}{0}:}" Margin="3,0,10,0"/>
             <TextBlock Text="{Binding Title}" TextTrimming="WordEllipsis" ToolTip="{Binding Title}"/>
@@ -56,7 +69,9 @@
         <ScrollViewer Grid.Row="1" Margin="5" HorizontalScrollBarVisibility="Disabled" x:Name="ScrollViewer">
             <StackPanel>
                 
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,.5">
                 <controls:ProjectDetails/>
+                </Border>
                 
                 <TextBlock Text="Description:" Style="{StaticResource TextHeaderStyle}"/>
                 <TextBlock Text="{Binding Description}" TextWrapping="Wrap" x:Name="DescriptionText"/>
@@ -64,8 +79,9 @@
                 <TextBlock Text="Comments" Style="{StaticResource TextHeaderStyle}"/>
                 <controls:CommentList ItemWidth="{Binding ElementName=DescriptionText, Path=ActualWidth}"/>
                 
+                <panes:CommentEditorPane Visibility="{Binding IsAddCommentVisible, Converter={StaticResource BoolToVis}}"
+                                         CanOpenWindow="True" Description="Add Comment:" IsInAddMode="True"/>
                 
-                <panes:AddCommentPane Visibility="{Binding IsAddCommentVisible, Converter={StaticResource BoolToVis}}"/>
                 <Button Content="Add Comment" Command="{Binding ShowAddCommentCmd}" Click="OnAddCommentCmdClicked"
                         Visibility="{Binding IsAddCommentVisible, Converter={StaticResource BoolToVisInverted}}"/>
                 

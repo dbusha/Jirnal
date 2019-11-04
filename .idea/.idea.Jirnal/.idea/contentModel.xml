@@ -18,6 +18,7 @@
           <e p="Author.cs" t="Include" />
           <e p="AvatarUrls.cs" t="Include" />
           <e p="Comment.cs" t="Include" />
+          <e p="CommentAddUpdate.cs" t="Include" />
           <e p="Comments.cs" t="Include" />
           <e p="Component.cs" t="Include" />
           <e p="Converter.cs" t="Include" />
@@ -102,7 +103,13 @@
           </e>
         </e>
         <e p="Resources" t="Include">
+          <e p="bin_closed.png" t="Include" />
+          <e p="bullet_edit.png" t="Include" />
           <e p="HorizontalLayout_16x16.png" t="Include" />
+          <e p="note_add.png" t="Include" />
+          <e p="note_delete.png" t="Include" />
+          <e p="note_edit.png" t="Include" />
+          <e p="slide_cut.png" t="Include" />
           <e p="VerticalLayout_16x16.png" t="Include" />
         </e>
         <e p="ToDoList.txt" t="Include" />
@@ -144,8 +151,8 @@
             <e p="SizeReductionConverter.cs" t="Include" />
           </e>
           <e p="Panes" t="Include">
-            <e p="AddCommentPane.xaml" t="Include" />
-            <e p="AddCommentPane.xaml.cs" t="Include" />
+            <e p="CommentEditorPane.xaml" t="Include" />
+            <e p="CommentEditorPane.xaml.cs" t="Include" />
             <e p="EditorPane.xaml" t="Include" />
             <e p="EditorPane.xaml.cs" t="Include" />
             <e p="HorizontalLayoutPane.xaml" t="Include" />

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Threading.Tasks;
 using JiraOAuth.Client;
 using Jirnal.Core.JiraTypes;
@@ -22,19 +23,24 @@ namespace Jirnal.Core
 
         private readonly Dictionary<string, string> requestUrls_;
 
-        private const string ProjectUrl = "project";
-        private const string SearchUrl = "search";
-        private const string CommentsUrl = "comments";
+        private const string ProjectUrl = "Project";
+        private const string SearchUrl = "Search";
+        private const string CommentsUrl = "Comments";
+        private const string UpdateOrDeleteCommentUrl = "UpdateComments";
 
 
         public JiraProxy(string baseUrl)
         {
             client_ = new RestClient(baseUrl);
+            var apiPath = $"{baseUrl}/rest/api/2";
             requestUrls_ = new Dictionary<string, string>
             {
-                {SearchUrl, $"{baseUrl}/rest/api/2/search"},
-                {ProjectUrl, $"{baseUrl}/rest/api/2/project"},
-                {CommentsUrl, $"{baseUrl}/rest/api/2/issue/{{0}}/comment"}
+                {SearchUrl, $"{apiPath}/search"},
+                {ProjectUrl, $"{apiPath}/project"},
+                {CommentsUrl, $"{apiPath}/issue/{{0}}/comment"},
+                {UpdateOrDeleteCommentUrl, $"{apiPath}/issue/{{0}}/comment/{{1}}"},
+                
+                
             };
         }
 
@@ -76,6 +82,8 @@ namespace Jirnal.Core
                 var request = new RestRequest(requestUrls_[SearchUrl], Method.POST);
                 request.AddJsonBody(jsonSearch);
                 var response = await client_.ExecuteTaskAsync(request);
+                
+                // ToDo: Handle error response from search
                 if (response.Content.IsNullOrWhitespace())
                     return null;
                 
@@ -93,14 +101,83 @@ namespace Jirnal.Core
                 var url = string.Format(requestUrls_[CommentsUrl], key);
                 var request = new RestRequest(url, Method.GET);
                 var response = await client_.ExecuteTaskAsync(request);
-                if (response.Content.IsNullOrWhitespace())
-                    return null;
-                
-                var issues = JsonConvert.DeserializeObject<Comments>(response.Content, Converter.Settings);
-                return issues;
-            } catch (Exception err) { logger_.Error(err); }
 
-            return null; 
+                if (response.StatusCode == HttpStatusCode.NotFound) {
+                    logger_.Error($"Failed to get comments: {response.Content}");
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<Comments>(response.Content, Converter.Settings);
+                
+            } catch (Exception err) {
+                logger_.Error(err);
+                return null; 
+            }
+        }
+        
+
+        public async Task<bool> AddComment(string commentText, string issueKey)
+        {
+            try {
+                var comment = new CommentAddUpdate {Body = commentText};
+                var url = string.Format(requestUrls_[CommentsUrl], issueKey);
+                var request = new RestRequest(url, Method.POST);
+                request.AddJsonBody(JsonConvert.SerializeObject(comment));
+                var response = await client_.ExecuteTaskAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.BadRequest) {
+                    logger_.Error($"Failed to add comment: {response.Content}");
+                    return false;
+                }
+
+                return true;
+                
+            } catch (Exception err) {
+                logger_.Error(err);
+                return false; 
+            }
+        }
+        
+        
+        public async Task<bool> EditComment(string commentText, string issueKey, int commentId)
+        {
+            try {
+                var comment = new CommentAddUpdate {Body = commentText};
+                var url = string.Format(requestUrls_[UpdateOrDeleteCommentUrl], issueKey, commentId);
+                var request = new RestRequest(url, Method.PUT);
+                request.AddJsonBody(JsonConvert.SerializeObject(comment));
+                var response = await client_.ExecuteTaskAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.BadRequest) {
+                    logger_.Error($"Failed to edit comment: {response.Content}");
+                    return false;
+                }
+
+                return true;
+                
+            } catch (Exception err) {
+                logger_.Error(err);
+                return false;
+            }
+        }
+        
+        
+        public async Task<bool> DeleteComment(string issueKey, long commentId)
+        {
+            try {
+                var url = string.Format(requestUrls_[UpdateOrDeleteCommentUrl], issueKey, commentId);
+                var request = new RestRequest(url, Method.DELETE);
+                var response = await client_.ExecuteTaskAsync(request);
+
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                    return true;
+                
+                logger_.Error($"Failed to edit comment: {response.Content}");
+                return false;
+            } catch (Exception err) {
+                logger_.Error(err);
+                return false;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Jirnal.Core.JiraTypes
         public Priority Priority { get; set; }
 
         [JsonProperty("labels")]
-        public object[] Labels { get; set; }
+        public string[] Labels { get; set; }
 
         [JsonProperty("timeestimate")]
         public object TimeEstimate { get; set; }

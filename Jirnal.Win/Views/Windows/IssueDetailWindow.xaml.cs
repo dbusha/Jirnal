@@ -7,6 +7,7 @@ namespace Jirnal.Win.Views.Windows
         public IssueDetailWindow()
         {
             InitializeComponent();
+            DetailPane.CanOpenWindow = false;
         }
     }
 }

@@ -8,31 +8,41 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance viewModels:IssueVm}">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBlock" x:Key="LabelStyle">
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+        </Grid.Resources>
+        
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="80" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="75" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Project:" />
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Fix Versions:" />
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Priority:" />
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Components:" />
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Sprint:" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Project:" Style="{StaticResource LabelStyle}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Fix Versions:" Style="{StaticResource LabelStyle}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Priority:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Epic:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Story Points:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Components:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Sprint:" Style="{StaticResource LabelStyle}"/>
 
-        <TextBlock Grid.Row="0" Grid.Column="2" Text="Status:" />
-        <TextBlock Grid.Row="1" Grid.Column="2" Text="Resolution:" />
-        <TextBlock Grid.Row="2" Grid.Column="2" Text="Assignee:" />
-        <TextBlock Grid.Row="3" Grid.Column="2" Text="Reporter:" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Status:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="Resolution:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="Assignee:" Style="{StaticResource LabelStyle}"/>
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="Reporter:" Style="{StaticResource LabelStyle}"/>
 
         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProjectName}" />
         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Version}"
@@ -40,12 +50,14 @@
                    ToolTip="{Binding Version}" />
 
         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Priority}" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Components}"
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Epic}" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StoryPoints}" />
+        <TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Components}"
                    TextTrimming="CharacterEllipsis"
                    Margin="0,0,5,0"
                    ToolTip="{Binding Components}" />
 
-        <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Sprint}"
+        <TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Sprint}"
                    TextTrimming="CharacterEllipsis"
                    ToolTip="{Binding Sprint}" />
 

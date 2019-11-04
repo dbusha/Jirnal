@@ -13,6 +13,7 @@ namespace Jirnal.Core.JiraTypes
             Converters =
             {
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+                
             },
         };
     }

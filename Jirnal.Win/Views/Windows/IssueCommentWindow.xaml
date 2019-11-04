@@ -11,6 +11,6 @@
         ResizeMode="CanResizeWithGrip"
         d:DataContext="{d:DesignInstance Type=viewModels:IssueVm}">
     <Grid Margin="10">
-        <panes:AddCommentPane/>
+        <panes:CommentEditorPane x:Name="CommentPane"/>
     </Grid>
 </Window>

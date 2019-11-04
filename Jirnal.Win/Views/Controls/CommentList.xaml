@@ -3,34 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:jiraTypes="clr-namespace:Jirnal.Core.JiraTypes;assembly=Jirnal.Core"
              xmlns:converters="clr-namespace:Jirnal.Win.Views.Converters"
+             xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:IssueVm}">
+    
+    <UserControl.Resources>
+        <converters:SizeReductionConverter x:Key="ItemWidthReducer" Adjustment="50"/>
+        <converters:SizeReductionConverter x:Key="HeaderWidthReducer" Adjustment="30"/>
+    </UserControl.Resources>
+    
     <Grid>
-        <Grid.Resources>
-            <converters:SizeReductionConverter x:Key="WidthReducer" Adjustment="70"/>
-        </Grid.Resources>
-        
-        <ListBox ItemsSource="{Binding Comments}" PreviewMouseWheel="OnPreviewMouseWheel_" BorderBrush="Transparent" >
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="jiraTypes:Comment">
-                    <StackPanel Margin="2">
-                        <Border BorderBrush="DimGray" BorderThickness="0,0,0,.5">
-                            <TextBlock>
-                                <Run Text="{Binding Author.DisplayName, Mode=OneWay}"/>
-                                <Run Text=" wrote on "/>
-                                <Run Text="{Binding DisplayDate, Mode=OneWay}"/>
-                            </TextBlock>
-                        </Border> 
-                        <TextBlock Text="{Binding Body}" TextWrapping="Wrap" Margin="20,3"
-                                   Width="{Binding ItemWidth, 
-                                                   RelativeSource={RelativeSource AncestorType=UserControl},
-                                                   Converter={StaticResource WidthReducer}}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+        <ListBox ItemsSource="{Binding Comments}" PreviewMouseWheel="OnPreviewMouseWheel_" BorderBrush="Transparent">
+             <ListBox.ItemTemplate>
+                 <DataTemplate DataType="viewModels:CommentVm">
+                     <StackPanel Margin="2">
+                         <Border BorderBrush="DimGray" BorderThickness="0,0,0,.5">
+                             <Grid Width="{Binding ItemWidth, RelativeSource={RelativeSource AncestorType=UserControl},
+                                               Converter={StaticResource HeaderWidthReducer}}">
+                                 <Grid.ColumnDefinitions>
+                                     <ColumnDefinition Width="*"/>
+                                     <ColumnDefinition Width="55"/>
+                                 </Grid.ColumnDefinitions>
+                                 
+                                 <TextBlock Grid.Column="0" VerticalAlignment="Bottom">
+                                     <Run Text="{Binding Author.DisplayName, Mode=OneWay}"/>
+                                     <Run Text=" wrote on "/>
+                                     <Run Text="{Binding DisplayDate, Mode=OneWay}"/>
+                                 </TextBlock>
+                                 
+                                 <StackPanel Grid.Column="1" Orientation="Horizontal"> 
+                                     <Button BorderBrush="Transparent" Margin="5,3" Click="OnDeleteClicked_">
+                                         <Image Source="../../Resources/bin_closed.png" Height="16" Width="16"/>
+                                     </Button>
+                                     <Button BorderBrush="Transparent" Margin="5,3" Click="OnEditClicked_">
+                                         <Image Source="../../Resources/note_edit.png" Height="16" Width="16"/>
+                                     </Button>
+                                 </StackPanel>
+                             </Grid>
+                         </Border> 
+                         <TextBlock Text="{Binding Body}" TextWrapping="Wrap" Margin="3"
+                                    Width="{Binding ItemWidth, 
+                                               RelativeSource={RelativeSource AncestorType=UserControl},
+                                               Converter={StaticResource ItemWidthReducer}}"/>
+                     </StackPanel> 
+                 </DataTemplate>
+             </ListBox.ItemTemplate>
         </ListBox>
-        
     </Grid>
+    
+    
+    
 </UserControl>

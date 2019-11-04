@@ -1,0 +1,41 @@
+<UserControl x:Class="Jirnal.Win.Views.Panes.CommentEditorPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
+             xmlns:converters="clr-namespace:Tools.UI.WPF.Converters;assembly=Tools.UI.WPF"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=viewModels:IssueVm}">
+    <Grid>
+        <Grid.Resources>
+            <converters:BoolToVisibility TrueValue="Visible" FalseValue="Collapsed" x:Key="BoolToVisibility"/>
+            <converters:BoolToString TrueValue="Add" FalseValue="Edit" x:Key="AddEditConverter"/>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Description}" 
+                   VerticalAlignment="Bottom"/>
+        
+        <Button Grid.Row="0" HorizontalAlignment="Right" Content="New Window" Click="OnOpenCommentWindow_" Margin="5,3"
+                Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl},
+                                Path=CanOpenWindow, Converter={StaticResource BoolToVisibility}}"/>
+        
+        <TextBox Grid.Row="1" Text="{Binding CommentText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" 
+                 AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" MinHeight="150"/>
+    
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0">
+            <Button Content="Cancel" Command="{Binding CancelCommentCmd}"  Margin="5,3" Width="100"/>
+            <Button Command="{Binding SubmitComment}" Margin="5,3" Width="100"
+                Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                  Path=IsInAddMode, Converter={StaticResource AddEditConverter}}" />
+        </StackPanel>
+            
+    </Grid>
+</UserControl>

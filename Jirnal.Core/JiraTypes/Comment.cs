@@ -25,12 +25,9 @@ namespace Jirnal.Core.JiraTypes
         public DateTime Created { get; set; }
 
         [JsonProperty("updated")]
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
 
         [JsonProperty("visibility")]
         public Visibility Visibility { get; set; }
-
-        
-        public string DisplayDate => Updated.Date == DateTime.Today ? Updated.ToString("h:mm:ss tt zz") : Updated.ToString("F");
     }
 }
