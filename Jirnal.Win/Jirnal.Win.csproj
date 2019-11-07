@@ -57,6 +57,8 @@
       <Resource Include="Resources\bullet_edit.png" />
       <None Remove="Resources\bin_closed.png" />
       <Resource Include="Resources\bin_closed.png" />
+      <None Remove="Resources\edit_button.png" />
+      <Resource Include="Resources\edit_button.png" />
     </ItemGroup>
 
 </Project>

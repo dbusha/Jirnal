@@ -18,6 +18,7 @@ namespace Jirnal.Core.JiraTypes {
         public string Key { get; set; }
 
         [JsonProperty("fields")]
+        [JsonConverter(typeof(JiraCustomFieldConverter<IssueFields>))]
         public IssueFields Fields { get; set; }
 
         [JsonProperty("names")]

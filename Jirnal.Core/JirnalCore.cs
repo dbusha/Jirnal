@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using JiraOAuth.Client;
 using Jirnal.Core.Events;
 using Jirnal.Core.Settings;
@@ -17,11 +18,11 @@ namespace Jirnal.Core
             JiraProxy = new JiraProxy(oauthSettings_.BaseUrl);
             JiraOAuthClient = new JiraOAuthClient(oauthSettings_.BaseUrl, oauthSettings_.ConsumerKey, oauthSettings_.ConsumerSecret);
             MessageBus = new MessageBus();
-            
+
             if (!oauthSettings_.AccessToken.IsNullOrWhitespace()) {
                 JiraProxy.LoadAuthenticator(oauthSettings_);
+                JiraProxy.GetCustomFields();
             }
-
         }
 
         
@@ -30,18 +31,12 @@ namespace Jirnal.Core
         public JiraProxy JiraProxy { get; }
         public MessageBus MessageBus { get; }
 
-        
+
         public void SaveOAuthSettings()
         {
             oauthSettings_.AccessToken = JiraOAuthClient.AccessToken.Token;
             oauthSettings_.AccessTokenSecret = JiraOAuthClient.AccessToken.TokenSecret;
             oauthSettings_.Session = JiraOAuthClient.AccessToken.SessionHandle;
-        }
-
-        public void Sample()
-        {
-           
-            
         }
     }
 }

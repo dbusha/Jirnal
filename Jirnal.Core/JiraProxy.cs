@@ -22,11 +22,13 @@ namespace Jirnal.Core
         private readonly RestClient client_;
 
         private readonly Dictionary<string, string> requestUrls_;
+        private readonly Dictionary<string, CustomField> customFieldLookup_ = new Dictionary<string, CustomField>();
 
         private const string ProjectUrl = "Project";
         private const string SearchUrl = "Search";
         private const string CommentsUrl = "Comments";
         private const string UpdateOrDeleteCommentUrl = "UpdateComments";
+        private const string GetCustomFieldsUrl = "GetCustomFields";
 
 
         public JiraProxy(string baseUrl)
@@ -39,8 +41,7 @@ namespace Jirnal.Core
                 {ProjectUrl, $"{apiPath}/project"},
                 {CommentsUrl, $"{apiPath}/issue/{{0}}/comment"},
                 {UpdateOrDeleteCommentUrl, $"{apiPath}/issue/{{0}}/comment/{{1}}"},
-                
-                
+                {GetCustomFieldsUrl, $"{apiPath}/customFields"},
             };
         }
 
@@ -67,7 +68,7 @@ namespace Jirnal.Core
                 var response = await client_.ExecuteTaskAsync(request);
                 if(response.Content.IsNullOrWhitespace())
                     return new Collection<JiraProject>();
-                var projects = JsonConvert.DeserializeObject<JiraProject[]>(response.Content, Converter.Settings);
+                var projects = JsonConvert.DeserializeObject<JiraProject[]>(response.Content, JsonConverterSettings.Settings);
                 return projects;
             } catch (Exception err) { logger_.Error(err); }
 
@@ -87,13 +88,35 @@ namespace Jirnal.Core
                 if (response.Content.IsNullOrWhitespace())
                     return null;
                 
-                var issues = JsonConvert.DeserializeObject<SearchResult>(response.Content, Converter.Settings);
+                var issues = JsonConvert.DeserializeObject<SearchResult>(response.Content, JsonConverterSettings.Settings);
                 return issues;
             } catch (Exception err) { logger_.Error(err); }
 
             return null;
         }
 
+        
+        public void GetCustomFields()
+        {
+            try {
+                var url = requestUrls_[GetCustomFieldsUrl];
+                var request = new RestRequest(url, Method.GET);
+                var response = client_.Execute(request);
+
+                if (response.StatusCode == HttpStatusCode.NotFound) {
+                    logger_.Error($"Failed to get comments: {response.Content}");
+                    return;
+                }
+
+                var fields = JsonConvert.DeserializeObject<CustomFields>(response.Content, JsonConverterSettings.Settings);
+                foreach(var field in fields.Fields)
+                    customFieldLookup_.Add(field.Id, field);
+
+            } catch (Exception err) {
+                logger_.Error(err);
+            }
+        }
+        
         
         public async Task<Comments> GetComments(string key)
         {
@@ -107,8 +130,8 @@ namespace Jirnal.Core
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<Comments>(response.Content, Converter.Settings);
-                
+                return JsonConvert.DeserializeObject<Comments>(response.Content, JsonConverterSettings.Settings);
+
             } catch (Exception err) {
                 logger_.Error(err);
                 return null; 

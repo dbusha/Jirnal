@@ -21,8 +21,8 @@
           <e p="CommentAddUpdate.cs" t="Include" />
           <e p="Comments.cs" t="Include" />
           <e p="Component.cs" t="Include" />
-          <e p="Converter.cs" t="Include" />
           <e p="Creator.cs" t="Include" />
+          <e p="CustomField.cs" t="Include" />
           <e p="InwardIssueFields.cs" t="Include" />
           <e p="Issue.cs" t="Include" />
           <e p="IssueFields.cs" t="Include" />
@@ -34,6 +34,7 @@
           <e p="JiraProject.cs" t="Include" />
           <e p="JiraType.cs" t="Include" />
           <e p="JiraUser.cs" t="Include" />
+          <e p="JsonConverterSettings.cs" t="Include" />
           <e p="Lead.cs" t="Include" />
           <e p="Names.cs" t="Include" />
           <e p="OutwardIssue.cs" t="Include" />
@@ -105,6 +106,7 @@
         <e p="Resources" t="Include">
           <e p="bin_closed.png" t="Include" />
           <e p="bullet_edit.png" t="Include" />
+          <e p="edit_button.png" t="Include" />
           <e p="HorizontalLayout_16x16.png" t="Include" />
           <e p="note_add.png" t="Include" />
           <e p="note_delete.png" t="Include" />

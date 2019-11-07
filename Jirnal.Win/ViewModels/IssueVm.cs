@@ -7,7 +7,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Jirnal.Core;
 using Jirnal.Core.JiraTypes;
-using Microsoft.VisualBasic.CompilerServices;
 using Prism.Commands;
 using Tools.ExtensionMethods;
 using Tools.UI.WPF;
