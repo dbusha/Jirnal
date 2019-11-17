@@ -6,7 +6,7 @@
              xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
              mc:Ignorable="d" Height="40"
              d:DesignHeight="25" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance Type=viewModels:MainStatusBarVm}">
+             d:DataContext="{d:DesignInstance Type=viewModels:MainMenuBarVm}">
     
     <UserControl.CommandBindings>
         <CommandBinding Command="Close" Executed="OnClose_"/>
@@ -20,7 +20,7 @@
             </MenuItem>
             
             <MenuItem Header="Tools">
-                
+                <MenuItem Header="Issue Field Manager" Command="{Binding OpenIssueFieldManager}"/>
             </MenuItem>
             
             <MenuItem Header="Help">

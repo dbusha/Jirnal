@@ -1,6 +1,9 @@
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Jirnal.Win.ViewModels;
+using Jirnal.Win.Views.Windows;
 
 namespace Jirnal.Win.Views.Controls.Main
 {

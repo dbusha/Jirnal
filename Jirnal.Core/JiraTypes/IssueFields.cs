@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Tools.ExtensionMethods;
 
 namespace Jirnal.Core.JiraTypes
 {
@@ -146,55 +143,4 @@ namespace Jirnal.Core.JiraTypes
 
         public IDictionary<string, object> CustomFields { get; } = new Dictionary<string, object>();
     }
-
-
-    public interface ICustomFields
-    {
-        IDictionary<string, object> CustomFields { get; }
-    }
-    
-    public class JiraCustomFieldConverter<T> : JsonConverter<T> where T : class, ICustomFields, new()
-    {
-        public override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
-        { throw new NotImplementedException(); }
-        
-
-        public override T ReadJson(JsonReader reader, Type objectType, T existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            var fields = hasExistingValue ? existingValue : new T();
-            var jsonObject = JObject.Load(reader);
-
-            foreach (var field in jsonObject.Properties().Where(prop => prop.Name.StartsWithCI("CustomField_"))) {
-                if (field.Type == JTokenType.Null)
-                    continue;
-                Trace.WriteLine($"{field.Name} ({field.Type}): {field.Value}");
-                fields.CustomFields.Add(field.Name, field.Value);
-            } 
-            
-            using (var jsonReader = CopyAndResetReader_(reader, jsonObject)) {
-                serializer.Populate(jsonReader, fields);
-            }
-            
-            return fields;
-        }
-
-
-        private JsonReader CopyAndResetReader_(JsonReader reader, JToken token)
-        {
-            var newReader = token.CreateReader();
-            newReader.Culture = reader.Culture;
-            newReader.DateFormatString = reader.DateFormatString;
-            newReader.DateParseHandling = reader.DateParseHandling;
-            newReader.DateTimeZoneHandling = reader.DateTimeZoneHandling;
-            newReader.FloatParseHandling = reader.FloatParseHandling;
-            newReader.MaxDepth = reader.MaxDepth;
-            newReader.SupportMultipleContent = reader.SupportMultipleContent;
-            return newReader;
-        }
-        
-    }
-    
 }

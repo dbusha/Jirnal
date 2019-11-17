@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace Jirnal.Win.ViewModels
         
         public IssueVm(JirnalCore jirnalCore, Issue issue) : this(jirnalCore)
         {
-            ProjectName = issue.Fields.Project.Name;
+            ProjectName = issue.Fields.Project?.Name;
             Description = issue.Fields.Description;
             Key = issue.Key;
             Updated = issue.Fields.Updated;
@@ -43,11 +44,18 @@ namespace Jirnal.Win.ViewModels
             Assignee = issue.Fields.Assignee?.DisplayName;
             Version = issue.Fields.Versions != null ? string.Join(',', issue.Fields.Versions.Select(v => v.Name)) : "";
             Components = string.Join(',', issue.Fields.Components.Select(c => c.Name));
-            Reporter = issue.Fields.Reporter.DisplayName;
+            Reporter = issue.Fields.Reporter?.DisplayName;
             Resolution = issue.Fields.Resolution?.Name;
-            Priority = issue.Fields.Priority.Name;
+            Priority = issue.Fields.Priority?.Name;
             Status = issue.Fields.Status?.Name;
             Sprint = string.Join(",", issue.Fields.Sprints);
+
+            List<string> fields = new List<string>();
+            
+            foreach (var customField in issue.Fields.CustomFields) {
+                fields.Add(jirnalCore.JiraCache.JiraFieldLookup.GetFieldNameFromId(customField.Key));
+            }
+            
         }
 
         

@@ -1,4 +1,5 @@
 using System;
+using System.Windows;
 using Jirnal.Core;
 using Jirnal.Win.Views.Windows;
 
@@ -15,8 +16,9 @@ namespace Jirnal.Win.ViewModels
 
 
         public static WindowManager  Singleton => lazy_.Value;
-        public MainWindow MainWindow => (MainWindow)App.Current?.MainWindow;
+        public MainWindow MainWindow => (MainWindow)Application.Current?.MainWindow;
         public AuthenticationWindow AuthenticationWindow { get; private set; }
+        public IssueFieldManagerWindow IssueFieldManager { get; private set; }
 
 
         public void Initialize(JirnalCore core)
@@ -36,5 +38,16 @@ namespace Jirnal.Win.ViewModels
             AuthenticationWindow.Activate();
         }
 
+        public void OpenIssueFieldManager()
+        {
+            if (IssueFieldManager == null) {
+                var vm = new IssueFieldManagerVm(jirnalCore_);
+                IssueFieldManager = new IssueFieldManagerWindow(vm) {Owner = MainWindow};
+                IssueFieldManager.Closed += (sender, args) => IssueFieldManager = null; 
+                IssueFieldManager.Show();
+            }
+
+            IssueFieldManager.Activate();
+        }
     }
 }

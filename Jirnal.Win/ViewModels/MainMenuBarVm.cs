@@ -8,6 +8,7 @@ namespace Jirnal.Win.ViewModels
     {
         private readonly JirnalCore jirnalCore_;
         private ICommand openAuthCmd_;
+        private ICommand openFieldManagerCmd_;
 
         public MainMenuBarVm(JirnalCore jirnalCore)
         {
@@ -16,5 +17,7 @@ namespace Jirnal.Win.ViewModels
 
 
         public ICommand OpenAuthenticationCmd => CommandHelper(ref openAuthCmd_, WindowManager.Singleton.OpenAuthWindow);
+
+        public ICommand OpenIssueFieldManager => CommandHelper(ref openFieldManagerCmd_, WindowManager.Singleton.OpenIssueFieldManager);
     }
 }

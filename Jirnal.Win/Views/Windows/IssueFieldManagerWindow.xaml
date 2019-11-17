@@ -1,0 +1,89 @@
+<Window x:Class="Jirnal.Win.Views.Windows.IssueFieldManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
+        xmlns:converters="clr-namespace:Tools.UI.WPF.Converters;assembly=Tools.UI.WPF"
+        xmlns:dd="urn:gong-wpf-dragdrop"
+        mc:Ignorable="d"
+        SizeToContent="Width"
+        Title="Manage Issue Fields" Height="450" 
+        d:DataContext="{d:DesignInstance Type=viewModels:IssueFieldManagerVm}">
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="OnCloseCmd_"></CommandBinding>
+    </Window.CommandBindings>
+    
+    <Window.InputBindings>
+        <KeyBinding Command="Close" Key="Escape"/>
+    </Window.InputBindings>
+    
+    <Grid>
+        <Grid.Resources>
+            <converters:BoolToVisibility x:Key="BoolToVis" TrueValue="Visible" FalseValue="Collapsed"/>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,0">
+            <TextBlock Text="Column Layout: " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding ColumnLayout}" SelectedItem="{Binding VisibleColumns}" Width="200">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="20,10">
+            <Grid.Resources>
+                <Style TargetType="ListBox">
+                    <Setter Property="DisplayMemberPath" Value="Name"/>
+                    <Setter Property="dd:DragDrop.IsDragSource" Value="True"/>
+                    <Setter Property="dd:DragDrop.IsDropTarget" Value="True"/>
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="Width" Value="220"/>
+                </Style>
+            </Grid.Resources>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <ListBox Grid.Column="0" DataContext="{Binding Fields}" ItemsSource="{Binding Fields}" 
+                     dd:DragDrop.DropHandler="{Binding}" />
+
+            <ListBox Grid.Column="1" DataContext="{Binding ColumnOne}" ItemsSource="{Binding Fields}"
+                     dd:DragDrop.DropHandler="{Binding}" />
+            
+            <ListBox Grid.Column="2" DataContext="{Binding ColumnTwo}" ItemsSource="{Binding Fields}" 
+                     dd:DragDrop.DropHandler="{Binding}"
+                     Visibility="{Binding IsVisible, Converter={StaticResource BoolToVis}}"/> 
+            
+            <ListBox Grid.Column="3" DataContext="{Binding ColumnThree}" ItemsSource="{Binding .Fields}"
+                     dd:DragDrop.DropHandler="{Binding}"
+                     Visibility="{Binding IsVisible, Converter={StaticResource BoolToVis}}"/> 
+
+            <ListBox Grid.Column="4" DataContext="{Binding ColumnFour}" ItemsSource="{Binding Fields}"
+                     dd:DragDrop.DropHandler="{Binding}"
+                     Visibility="{Binding IsVisible, Converter={StaticResource BoolToVis}}"/>
+        </Grid>
+        
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" >
+            <Button Content="Cancel" Command="Close" Margin="8" Width="120"/>
+            <Button Content="Apply" Command="{Binding ApplyColumnAssignmentCmd}" Width="120" Margin="8"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>
