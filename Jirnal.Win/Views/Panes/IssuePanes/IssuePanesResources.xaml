@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Jirnal.Win.Views.Panes.IssuePanes">
+    
+    <DataTemplate x:Key="RecentIssuesPane">
+        <local:RecentIssuesPane/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="SearchPane">
+        <local:RecentIssuesPane/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="PinnedPane">
+        <local:RecentIssuesPane/>
+    </DataTemplate>
+    
+    <local:IssuePaneSelector x:Key="TabItemSelector"
+                             SearchIssuesTemplate="{StaticResource SearchPane}"
+                             RecentIssuesTemplate="{StaticResource RecentIssuesPane}"
+                             PinnedIssuesTemplate="{StaticResource PinnedPane}"/>
+</ResourceDictionary>

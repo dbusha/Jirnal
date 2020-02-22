@@ -1,0 +1,51 @@
+<UserControl x:Class="Jirnal.Win.Views.Panes.IssuePanes.RecentIssuesPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
+             xmlns:issuePanes="clr-namespace:Jirnal.Win.ViewModels.IssuePanes"
+             xmlns:panes="clr-namespace:Jirnal.Win.Views.Panes"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance issuePanes:RecentIssuesPaneVm}" >
+    <DockPanel>
+        
+        <Expander ExpandDirection="Right">
+            <Expander.Header>
+                <TextBlock Text="Filters" SnapsToDevicePixels="True">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="270"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <panes:ProjectsPane DataContext="{Binding Projects}" Width="200"/>
+        </Expander>  
+        
+        <ListView  ItemsSource="{Binding Issues}" SelectedItem="{Binding SelectedIssue}">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="BorderBrush" Value="DimGray"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,.5"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="viewModels:IssueVm">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Key}" Width="60" DockPanel.Dock="Left" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Title}" FontWeight="DemiBold" DockPanel.Dock="Left"/>
+                        </DockPanel>
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock Text="{Binding Components}" DockPanel.Dock="Left" Margin="60,0,0,0"/>
+                            <TextBlock Text="{Binding Version}" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
+</UserControl>

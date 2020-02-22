@@ -4,7 +4,6 @@ namespace Jirnal.Core.Settings
     {
         public IssueFieldSettings() : base("IssueFieldSettings")
         {
-            
         }
 
         public IssueFieldSettings(string databasePath) : base(databasePath, "IssueFieldSettings")

@@ -104,7 +104,41 @@
           <e p="x64" t="Include">
             <e p="Debug" t="Include">
               <e p="netcoreapp3.0" t="Include">
+                <e p="App.g.cs" t="Include" />
+                <e p="GeneratedInternalTypeHelper.g.cs" t="Include" />
                 <e p="Jirnal.Win.AssemblyInfo.cs" t="Include" />
+                <e p="Views" t="Include">
+                  <e p="Controls" t="Include">
+                    <e p="CommentList.g.cs" t="Include" />
+                    <e p="LabelAndValueField.g.cs" t="Include" />
+                    <e p="Main" t="Include">
+                      <e p="MenuBar.g.cs" t="Include" />
+                      <e p="StatusBar.g.cs" t="Include" />
+                    </e>
+                    <e p="ProjectDetails.g.cs" t="Include" />
+                  </e>
+                  <e p="Panes" t="Include">
+                    <e p="CommentEditorPane.g.cs" t="Include" />
+                    <e p="IssueDetailPane.g.cs" t="Include" />
+                    <e p="IssuePanes" t="Include">
+                      <e p="RecentIssuesPane.g.cs" t="Include" />
+                      <e p="SearchIssuesPane.g.cs" t="Include" />
+                    </e>
+                    <e p="LayoutPanes" t="Include">
+                      <e p="HorizontalLayoutPane.g.cs" t="Include" />
+                      <e p="VerticalLayoutPane.g.cs" t="Include" />
+                    </e>
+                    <e p="ProjectsPane.g.cs" t="Include" />
+                  </e>
+                  <e p="Windows" t="Include">
+                    <e p="AuthenticationWindow.g.cs" t="Include" />
+                    <e p="EditCommentWindow.g.cs" t="Include" />
+                    <e p="IssueDetailWindow.g.cs" t="Include" />
+                    <e p="IssueFieldManagerWindow.g.cs" t="Include" />
+                    <e p="MainWindow.g.cs" t="Include" />
+                    <e p="SettingsWindow.g.cs" t="Include" />
+                  </e>
+                </e>
               </e>
             </e>
           </e>
@@ -164,26 +198,30 @@
           <e p="Panes" t="Include">
             <e p="CommentEditorPane.xaml" t="Include" />
             <e p="CommentEditorPane.xaml.cs" t="Include" />
-            <e p="EditorPane.xaml" t="Include" />
-            <e p="EditorPane.xaml.cs" t="Include" />
-            <e p="HorizontalLayoutPane.xaml" t="Include" />
-            <e p="HorizontalLayoutPane.xaml.cs" t="Include" />
             <e p="IssueDetailPane.xaml" t="Include" />
             <e p="IssueDetailPane.xaml.cs" t="Include" />
-            <e p="IssuesPane.xaml" t="Include" />
-            <e p="IssuesPane.xaml.cs" t="Include" />
+            <e p="IssuePanes" t="Include">
+              <e p="IssuePaneSelector.cs" t="Include" />
+              <e p="IssuePanesResources.xaml" t="Include" />
+              <e p="RecentIssuesPane.xaml" t="Include" />
+              <e p="RecentIssuesPane.xaml.cs" t="Include" />
+              <e p="SearchIssuesPane.xaml" t="Include" />
+              <e p="SearchIssuesPane.xaml.cs" t="Include" />
+            </e>
+            <e p="LayoutPanes" t="Include">
+              <e p="HorizontalLayoutPane.xaml" t="Include" />
+              <e p="HorizontalLayoutPane.xaml.cs" t="Include" />
+              <e p="VerticalLayoutPane.xaml" t="Include" />
+              <e p="VerticalLayoutPane.xaml.cs" t="Include" />
+            </e>
             <e p="ProjectsPane.xaml" t="Include" />
             <e p="ProjectsPane.xaml.cs" t="Include" />
-            <e p="SearchPane.xaml" t="Include" />
-            <e p="SearchPane.xaml.cs" t="Include" />
-            <e p="VerticalLayoutPane.xaml" t="Include" />
-            <e p="VerticalLayoutPane.xaml.cs" t="Include" />
           </e>
           <e p="Windows" t="Include">
             <e p="AuthenticationWindow.xaml" t="Include" />
             <e p="AuthenticationWindow.xaml.cs" t="Include" />
-            <e p="IssueCommentWindow.xaml" t="Include" />
-            <e p="IssueCommentWindow.xaml.cs" t="Include" />
+            <e p="EditCommentWindow.xaml" t="Include" />
+            <e p="EditCommentWindow.xaml.cs" t="Include" />
             <e p="IssueDetailWindow.xaml" t="Include" />
             <e p="IssueDetailWindow.xaml.cs" t="Include" />
             <e p="IssueFieldManagerWindow.xaml" t="Include" />

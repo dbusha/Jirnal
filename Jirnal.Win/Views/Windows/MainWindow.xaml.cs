@@ -25,22 +25,7 @@ namespace Jirnal.Win.Views.Windows
 
             MainMenuBar.Close += Close;
             WindowManager.Singleton.Initialize(jirnalCore_);
-            jirnalCore_.MessageBus.LayoutChangeRequest += OnLayoutChangeRequest_;
             mainVm_.StatusBar.SetSelectedLayout();
-        }
-        
-
-        private void OnLayoutChangeRequest_(object sender, LayoutChangedEventArgs e)
-        {
-            if (!(sender is MainStatusBarVm))
-                return;
-            LayoutGrid.Children.Clear();
-            if (e.Direction == LayoutDirection.Vertical) {
-                LayoutGrid.Children.Add(new VerticalLayoutPane(mainVm_.Layout));
-            }
-            else {
-                LayoutGrid.Children.Add(new HorizontalLayoutPane(mainVm_.Layout));
-            }
         }
 
 

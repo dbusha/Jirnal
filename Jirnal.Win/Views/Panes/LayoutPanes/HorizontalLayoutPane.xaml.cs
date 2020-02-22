@@ -1,7 +1,7 @@
 using System.Windows.Controls;
 using Jirnal.Win.ViewModels;
 
-namespace Jirnal.Win.Views.Panes
+namespace Jirnal.Win.Views.Panes.LayoutPanes
 {
     public partial class HorizontalLayoutPane : UserControl
     {

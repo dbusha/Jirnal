@@ -1,0 +1,39 @@
+<UserControl x:Class="Jirnal.Win.Views.Panes.LayoutPanes.VerticalLayoutPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:panes="clr-namespace:Jirnal.Win.Views.Panes"
+             xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
+             xmlns:issuePaneVms="clr-namespace:Jirnal.Win.ViewModels.IssuePanes"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:LayoutPaneVm}">
+    
+    <UserControl.Resources>
+       <ResourceDictionary Source="../IssuePanes/IssuePanesResources.xaml"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="1.25*"/>
+        </Grid.ColumnDefinitions>
+        
+        
+        <TabControl Grid.Row="0" Grid.Column="0" ItemsSource="{Binding IssuePanes}" SelectedItem="{Binding SelectedTab}"
+                    ContentTemplateSelector="{StaticResource TabItemSelector}">
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="issuePaneVms:IssuesPaneBaseVm">
+                    <HeaderedContentControl Header="{Binding Header}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+        
+        <GridSplitter Grid.Row="0" Grid.Column="1" ResizeBehavior="PreviousAndNext" Width="3" VerticalAlignment="Stretch"
+                      Background="DimGray"/>
+        
+        <panes:IssueDetailPane Grid.Row="0" Grid.Column="2" DataContext="{Binding SelectedTab.SelectedIssue}"/> 
+    </Grid>
+</UserControl>

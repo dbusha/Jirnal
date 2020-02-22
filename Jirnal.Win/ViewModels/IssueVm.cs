@@ -24,13 +24,14 @@ namespace Jirnal.Win.ViewModels
         private ICommand showAddCommentCmd_;
         private ICommand cancelAddCommentCmd_;
         private string commentText_;
+        private DelegateCommand<CommentVm> deleteCommentCmd_;
 
 
         private IssueVm(JirnalCore jirnalCore)
         {
             jirnalCore_ = jirnalCore;
             Comments = new ListCollectionView(comments_);
-            Comments.SortDescriptions.Add(new SortDescription(nameof(Comment.Updated), Ascend));
+            Comments.SortDescriptions.Add(new SortDescription(nameof(Comment.Created), Ascend));
         }
         
         
@@ -126,29 +127,44 @@ namespace Jirnal.Win.ViewModels
         
         
         public DelegateCommand SubmitComment => CommandHelper(ref addCommentCmd_, 
-            () => jirnalCore_.JiraProxy.AddComment(CommentText, Key), 
+            async () => {
+                if (await jirnalCore_.JiraProxy.AddComment(CommentText, Key)) {
+                    ResetComment_();
+                    await GetComments();
+                }
+            }, 
             () => !CommentText.IsNullOrWhitespace());
 
         
-        public ICommand CancelCommentCmd => CommandHelper(ref cancelAddCommentCmd_, () => {
-            IsAddCommentVisible = false;
-            CommentText = null;
-            CancelComment?.Invoke();
+        public ICommand DeleteCommentCmd => CommandHelper(ref deleteCommentCmd_, async (comment) => {
+            if (await jirnalCore_.JiraProxy.DeleteComment(Key, comment.Id))
+                await GetComments();
         });
 
 
+        public ICommand CancelCommentCmd => CommandHelper(ref cancelAddCommentCmd_, ResetComment_);
+
+
+        private void ResetComment_()
+        {
+            IsAddCommentVisible = false;
+            CommentText = null;
+            CancelComment?.Invoke();
+        }
+        
+        
         internal async Task GetComments()
         {
-            comments_.Clear();
             var comments = await jirnalCore_.JiraProxy.GetComments(Key);
-            foreach(var comment in comments.CommentList)
-                comments_.Add(new CommentVm(comment));
+            var ids = new HashSet<long>(comments.CommentList.Select(c => c.Id));
+            foreach (var comment in comments.CommentList) {
+                var commentVm = new CommentVm(comment);
+                foreach(var item in comments_)
+                    if(item.Created == comment.Created && item.Updated > comment.Updated)
+                        
+                comments_.Add(commentVm);
+            }
         }
-
         
-        internal async Task<bool> DeleteComment(CommentVm comment)
-        {
-            return await jirnalCore_.JiraProxy.DeleteComment(Key, comment.Id);
-        }
     }
 }

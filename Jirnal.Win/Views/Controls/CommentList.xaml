@@ -34,7 +34,9 @@
                                  </TextBlock>
                                  
                                  <StackPanel Grid.Column="1" Orientation="Horizontal"> 
-                                     <Button BorderBrush="Transparent" Margin="5,3" Click="OnDeleteClicked_">
+                                     <Button BorderBrush="Transparent" Margin="5,3" 
+                                             Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox},
+                                             Path=DataContext.DeleteCommentCmd}" CommandParameter="{Binding}">
                                          <Image Source="../../Resources/bin_closed.png" Height="16" Width="16"/>
                                      </Button>
                                      <Button BorderBrush="Transparent" Margin="5,3" Click="OnEditClicked_">

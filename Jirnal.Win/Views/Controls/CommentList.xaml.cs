@@ -10,8 +10,6 @@ namespace Jirnal.Win.Views.Controls
     public partial class CommentList : UserControl
     {
         private readonly Logger logger_ = LogManager.GetCurrentClassLogger();
-        private const MessageBoxButton YesNo = MessageBoxButton.YesNo;
-        private const MessageBoxResult No = MessageBoxResult.No;
         
         
         public CommentList()
@@ -49,28 +47,12 @@ namespace Jirnal.Win.Views.Controls
         }
         
 
-        private async void OnDeleteClicked_(object sender, RoutedEventArgs e)
-        {
-            var (issue, comment) = GetContext_(e);
-            if (issue == null || comment == null)
-                return;
-            if (MessageBox.Show("Are you sure you want to delete this comment?", "DeleteComment", YesNo) == No)
-                return;
-            var result = await issue.DeleteComment(comment);
-            if (!result) {
-                MessageBox.Show("An error occurred while deleting your comment. Check the logs for more information",
-                    "Delete Error",
-                    MessageBoxButton.OK);
-            }
-        }
-        
-
         private void OnEditClicked_(object sender, RoutedEventArgs e)
         {
             var (issue, comment) = GetContext_(e);
             if (issue == null || comment == null)
                 return;
-            var editWindow = new IssueCommentWindow(issue, comment);
+            var editWindow = new EditCommentWindow(issue, comment);
             editWindow.Show();
         }
 

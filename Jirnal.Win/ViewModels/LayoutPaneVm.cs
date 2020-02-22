@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using Jirnal.Core;
@@ -16,7 +17,6 @@ namespace Jirnal.Win.ViewModels
         public LayoutPaneVm(JirnalCore jirnalCore)
         {
             jirnalCore_ = jirnalCore;
-            Projects = new ProjectsVm(jirnalCore_);
             IssuePanes = new ListCollectionView(issuePanes_);
             issuePanes_.Add(new RecentIssuesPaneVm(jirnalCore, "Recent"));
             issuePanes_.Add(new SearchIssuesPaneVm(jirnalCore, "Search"));
@@ -25,13 +25,12 @@ namespace Jirnal.Win.ViewModels
         
         internal async Task InitializeAsync()
         {
-            await Projects.InitializeAsync();
             foreach (var pane in issuePanes_)
                 await pane.InitializeAsync();
+            SelectedTab = issuePanes_.First();
         }
         
         
-        public ProjectsVm Projects { get; }
         public ListCollectionView IssuePanes { get; }
 
         public IssuesPaneBaseVm SelectedTab

@@ -4,11 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mainView="clr-namespace:Jirnal.Win.Views.Controls.Main"
-        xmlns:panes="clr-namespace:Jirnal.Win.Views.Panes"
         xmlns:viewModels="clr-namespace:Jirnal.Win.ViewModels"
+        xmlns:layout="clr-namespace:Jirnal.Win.Views.Panes.LayoutPanes"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1000"
         d:DataContext="{d:DesignInstance Type=viewModels:MainVm}">
+    
+    <Window.Resources>
+        <DataTemplate x:Key="HorizontalLayout">
+            <layout:HorizontalLayoutPane/>
+        </DataTemplate>
+    
+        <DataTemplate x:Key="VerticalLayout">
+            <layout:VerticalLayoutPane/>
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -17,10 +28,23 @@
         </Grid.RowDefinitions>
         
         <mainView:MainMenuBar Grid.Row="0" x:Name="MainMenuBar" DataContext="{Binding MenuBar}"/>
+
+        <ContentPresenter Grid.Row="1" Content="{Binding Layout}">
+            <ContentPresenter.Style>
+                <Style TargetType="ContentPresenter">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=MainStatusBar, Path=DataContext.IsHorizontalChecked}" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource HorizontalLayout}"/> 
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=MainStatusBar, Path=DataContext.IsVerticalChecked}" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource VerticalLayout}"/> 
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentPresenter.Style>
+        </ContentPresenter>
         
-        <DockPanel Grid.Row="1" x:Name="LayoutGrid"/>
-        
-        <mainView:MainStatusBar Grid.Row="2" DataContext="{Binding StatusBar}"/>
+        <mainView:MainStatusBar Grid.Row="2" x:Name="MainStatusBar" DataContext="{Binding StatusBar}"/>
         
     </Grid>
 </Window>

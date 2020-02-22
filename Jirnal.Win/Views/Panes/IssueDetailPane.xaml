@@ -79,8 +79,7 @@
                 <TextBlock Text="Comments" Style="{StaticResource TextHeaderStyle}"/>
                 <controls:CommentList ItemWidth="{Binding ElementName=DescriptionText, Path=ActualWidth}"/>
                 
-                <panes:CommentEditorPane Visibility="{Binding IsAddCommentVisible, Converter={StaticResource BoolToVis}}"
-                                         CanOpenWindow="True" Description="Add Comment:" IsInAddMode="True"/>
+                <panes:CommentEditorPane Visibility="{Binding IsAddCommentVisible, Converter={StaticResource BoolToVis}}"/>
                 
                 <Button Content="Add Comment" Command="{Binding ShowAddCommentCmd}" Click="OnAddCommentCmdClicked"
                         Visibility="{Binding IsAddCommentVisible, Converter={StaticResource BoolToVisInverted}}"/>

@@ -155,7 +155,7 @@ namespace Jirnal.Core
                 request.AddJsonBody(JsonConvert.SerializeObject(comment));
                 var response = await client_.ExecuteTaskAsync(request);
 
-                if (response.StatusCode == HttpStatusCode.NoContent) 
+                if (response.StatusCode == HttpStatusCode.Created) 
                     return true;
                 
                 logger_.Error(BuildError_(response, "Failed to add comment"));

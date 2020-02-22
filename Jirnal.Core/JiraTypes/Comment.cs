@@ -29,5 +29,9 @@ namespace Jirnal.Core.JiraTypes
 
         [JsonProperty("visibility")]
         public Visibility Visibility { get; set; }
+
+
+        [JsonIgnore]
+        public DateTime UpdatedOrCreated => Updated ?? Created;
     }
 }
